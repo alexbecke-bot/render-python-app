@@ -1,10 +1,13 @@
+"""Jogo da moeda com simulação de tentativas"""
 
+import time
 import pandas as pd
 import scipy.stats
 import streamlit as st
-import time
 
-# estas são variáveis persistentes preservadas à medida que o Streamlin executa novamente esse script
+# estas são variáveis persistentes preservadas
+# A medida que o Streamlin executa novamente esse script
+
 if 'experiment_no' not in st.session_state:
     st.session_state['experiment_no'] = 0
 
@@ -18,10 +21,11 @@ chart = st.line_chart(
 )
 
 def toss_coin(n):
+    """Simula o lançamento de uma moeda"""
 
     trial_outcomes = scipy.stats.bernoulli.rvs(p=0.5, size=n)
 
-    mean = None
+    mean_value = None
     outcome_no = 0
     outcome_1_count = 0
 
@@ -34,9 +38,9 @@ def toss_coin(n):
         if r == 1:
             outcome_1_count += 1
 
-        mean = outcome_1_count / outcome_no
+        mean_value = outcome_1_count / outcome_no
 
-        results.append(mean)
+        results.append(mean_value)
 
         chart.line_chart(
 
@@ -46,7 +50,7 @@ def toss_coin(n):
 
         time.sleep(0.05)
 
-    return mean
+    return mean_value
 
 number_of_trials = st.slider('Número de tentativas?', 1, 1000, 10)
 start_button = st.button('Executar')
